@@ -1,7 +1,8 @@
 let express = require('express'),
     http = require('http'),
     config = require('config'),
-    router = require('./routes');
+    router = require('./routes'),
+    bodyParser = require('body-parser');
 
 let app = express();
 
@@ -16,6 +17,8 @@ app.set('port', config.get('server.port'));
 
 app.use(express.static(__dirname + '/public', {maxAge: 60000}));
 app.use(allowCrossDomain);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 router(app);
 
