@@ -1,8 +1,9 @@
 let express = require('express'),
     http = require('http'),
     config = require('config'),
+    bodyParser = require('body-parser'),
     router = require('./routes'),
-    bodyParser = require('body-parser');
+    cachedRespons = require('./middlewares/cachedResponseMiddleware');
 
 let app = express();
 
@@ -19,6 +20,7 @@ app.use(express.static(__dirname + '/public', {maxAge: 60000}));
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cachedRespons);
 
 router(app);
 

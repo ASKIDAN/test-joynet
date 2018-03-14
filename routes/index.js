@@ -1,12 +1,12 @@
 let request = require('request');
 let config = require('config');
 let url = require('url');
-let FunctionsQueue = require('../libs/functionsQueue');
+let FunctionsQueue = require('../modules/functionsQueue');
 let queue = new FunctionsQueue(3);
 
 let rootRouter = (app) => {
 
-    app.post('/', (req, res) => {
+    app.get('/', (req, res) => {
         for (i = 0; i < 10; i++) {
             queue.push(() => {
                 setTimeout(() => {
@@ -17,6 +17,7 @@ let rootRouter = (app) => {
             });
         }
     });
+
     app.get('/getrepos', (req, res) => {
         queue.push(() => {
             request({
@@ -24,29 +25,31 @@ let rootRouter = (app) => {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
-                    'Authorization': 'token ' + config.get('GithubAPI.token'),
+                    'Authorization':  config.get('GithubAPI.authBasic'),
                     'User-Agent': 'test-joynet'
                 }
             }, (err, response, body) => {
-                res.status(200).send(body);
+                res.status(200).send(JSON.parse(body));
             });
         });
     });
+
     app.get('/getcommits', (req, res) => {
+        const COUNT = 100;
         queue.push(() => {
             let param = url.parse(req.url, req.url);
-
             request({
-                url: 'https://api.github.com/repos/' + param.query.repo + '/commits',
+                url: 'https://api.github.com/repos/' + param.query.repo + '/commits?per_page=' + COUNT,
                 method: 'GET',
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
-                    'Authorization': 'token ' + config.get('GithubAPI.token'),
+                    'Authorization':  config.get('GithubAPI.authBasic'),
                     'User-Agent': 'test-joynet'
                 }
             }, (err, response, body) => {
-                res.status(200).send(body);
+                res.status(200).send(JSON.parse(body));
             });
+
         });
     });
 };

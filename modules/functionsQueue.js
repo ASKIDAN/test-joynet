@@ -11,10 +11,6 @@ class FunctionsQueue {
         this.state.queue.push(callback);
     }
 
-    _popReq(){
-        return this.state.queue.pop();
-    }
-
     _callCallback(callback) {
         this.state.index++;
         callback();
