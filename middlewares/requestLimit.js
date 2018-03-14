@@ -1,26 +1,43 @@
-let requestQueue = [];
-let inc = 0;
-let incr = ()=>{
-    inc++;
-    requestQueue.push(inc);
-};
-exports.inc = incr;
+class RequestQueue {
+    constructor(limit = 1){
+        this.state = {
+                limit: limit,
+                index: 0,
+                queue: []
+        };
+    }
 
-let dec = ()=>{
-    inc--;
-    requestQueue.pop();
-};
-exports.dec = dec;
+    _pushReq(func){
+        this.state.queue.push(func);
+    }
 
-let status = ()=>{
-    console.log(inc, requestQueue);
-};
-exports.status = status;
+    _popReq(){
+        return this.state.queue.pop();
+    }
 
-let requestLimit = (req, res, next) => {
-    incr();
-    status();
-    next();
-};
+    _callReq(func) {
+        func();
+        this.state.index++;
+    }
 
-exports.reqLim = requestLimit;
+    getStatus(){
+        console.log(this.state)
+    }
+
+    push(func) {
+        if (this.state.index < 3) {
+            this._callReq(func);
+        } else {
+            this._pushReq(func);
+        }
+    }
+
+    finished() {
+        this.state.index--;
+        let buff = this.state.queue.pop();
+        if (buff) this._callReq();
+    }
+}
+
+
+module.exports = RequestQueue;

@@ -1,10 +1,53 @@
-let {reqLim, status, dec } = require('../middlewares/requestLimit');
+let RequestQueue = require('../middlewares/requestLimit');
+let queue = new RequestQueue(3);
 
 let rootRouter = (app) => {
-    app.get('/', reqLim, (req, res)=>{
-        //dec();
-        status();
-        res.send("Hello world")
+
+    app.get('/', (req, res) => {
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
+        queue.push(() => {
+            queue.getStatus();
+            queue.finished();
+        });
     });
 };
 
