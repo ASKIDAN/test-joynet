@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import { HashRouter as Router, Route, Switch} from 'react-router-dom'
 import 'bootstrap/scss/bootstrap.scss'
-
 import ListRepo from "./ListRepo";
 import ListCommit from "./ListCommit";
+import Spiner from "./Spiner";
+import NotFound404 from "../components/NotFound404";
 
 
 class App extends Component {
@@ -16,23 +15,17 @@ class App extends Component {
 
     render() {
         return <div>
-            <Router>
+            <Router basename='/'>
                 <Switch>
                     <Route exact path='/' component={ListRepo}/>
-                    <Route path='/:owner/:repo' component={ListCommit}/>
+                    <Route path='/commits/:owner/:repo' component={ListCommit}/>
+                    <Route component={NotFound404}/>
                 </Switch>
             </Router>
+            <Spiner/>
         </div>
     }
 
 }
 
-function stateToProps(state) {
-    return {}
-}
-
-function dispathToProps(dispatch) {
-    return bindActionCreators({}, dispatch);
-}
-
-export default connect(stateToProps, dispathToProps)(App);
+export default (App);

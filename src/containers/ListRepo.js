@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import ItemRepo from "../components/ItemRepo"
@@ -14,15 +14,18 @@ class ListRepo extends Component {
 
     render() {
         return <div className='container list-repos'>
-            {
-                this.props.repos.map(item => {
-                    return (<ItemRepo data={item} key={item.id}/>);
-                })
-            }
+            <div className='row'>
+                {
+                    this.props.repos.map(item => {
+                        return (<ItemRepo data={item} key={item.id}/>);
+                    })
+                }
+            </div>
         </div>
     }
 
 }
+
 function stateToProps(state) {
     return {
         repos: state.repos,
@@ -33,4 +36,4 @@ function dispathToProps(dispatch) {
     return bindActionCreators({getRepos: getRepos}, dispatch);
 }
 
-export default connect(stateToProps,dispathToProps)(ListRepo);
+export default connect(stateToProps, dispathToProps)(ListRepo);

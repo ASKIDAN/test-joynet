@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const config = require('config');
 
 const configWebpack = {
     devServer: {
@@ -27,6 +26,10 @@ const configWebpack = {
             {
                 test: /\.(scss)/,
                 use: ['style-loader', 'css-loader', 'sass-loader']
+            },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                use: ['file-loader']
             }
         ]
     },

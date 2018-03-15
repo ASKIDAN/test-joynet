@@ -1,0 +1,18 @@
+.commits-table {
+  table-layout: fixed;
+
+  .author, .email {
+    width: 20%
+  }
+  .message {
+    width: 30%
+  }
+  .avatar, .date {
+    width: 15%;
+  }
+}
+
+.spinner-center {
+  width: 200px;
+  margin: 0 auto;
+}

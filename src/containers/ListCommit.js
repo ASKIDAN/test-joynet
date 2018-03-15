@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import ItemCommit from "../components/ItemCommit";
 import getCommits from "../actions/getCommits";
+import '../resources/scss/index.scss'
 
 class ListCommit extends Component {
 
@@ -13,14 +14,14 @@ class ListCommit extends Component {
 
     render() {
         return <div className='container'>
-            <table>
-                <thead>
+            <table className='table commits-table'>
+                <thead className='thead-inverse'>
                     <tr>
-                        <th>Author</th>
-                        <th>Email</th>
-                        <th>Avatar</th>
-                        <th>Commit message</th>
-                        <th>Date per commit</th>
+                        <th className='author'>Author</th>
+                        <th className='email'>Email</th>
+                        <th className='avatar'>Avatar</th>
+                        <th className='message'>Commit message</th>
+                        <th className='date'>Date per commit</th>
                     </tr>
                 </thead>
                 <tbody>

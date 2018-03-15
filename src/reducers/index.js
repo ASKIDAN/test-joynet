@@ -8,14 +8,13 @@ const initialState = {
     repos: [],
     commits: []
 };
-/*TODO: write reducers*/
 const mainReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_REPOS_SEND_REQUEST :
             let obj = {...state, repos: []};
             return {...obj, status: STATUS_LOADNING};
         case GET_REPOS_GET_RESPONSE  : {
-            let repos = JSON.parse(action.payload.data)
+            let repos = action.payload.data;
             let obj = {...state, repos: repos};
             return {...obj, status: STATUS_DONE};
         }
@@ -28,7 +27,7 @@ const mainReducer = (state = initialState, action) => {
             return {...obj, status: STATUS_LOADNING};
         }
         case GET_COMMITS_GET_RESPONSE : {
-            let commits = JSON.parse(action.payload.data);
+            let commits = action.payload.data;
             let obj = {...state, commits: commits};
             return {...obj, status: STATUS_DONE};
         }
