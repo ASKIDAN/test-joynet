@@ -1,5 +1,5 @@
 let CacheManager = require('../modules/cacheManager');
-let cachm = new CacheManager(20000);
+let cachm = new CacheManager(60000);
 
 let cachedResponse = (req, res, next) => {
     const key = '__test-joynet__' + req.url;

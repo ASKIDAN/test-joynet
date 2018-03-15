@@ -4,6 +4,8 @@
     "port": "3332"
   },
   "GithubAPI" : {
-    "token": "2def12edcf0844e8a0638ccc4b37f8c05ee6a37a"
+    "token": "",
+    "user": "",
+    "pass": ""
   }
 }

@@ -7,15 +7,20 @@ let queue = new FunctionsQueue(3);
 let rootRouter = (app) => {
 
     app.get('/', (req, res) => {
+        res.sendFile(__dirname + '/../public/index.html');
+    });
+
+    app.get('/testqueue', (req, res) => {
         for (i = 0; i < 10; i++) {
+            console.log('push');
             queue.push(() => {
                 setTimeout(() => {
                     queue.finished();
                     console.log('finish. in queue: ', queue.getStatus().queue.length);
-
                 }, 500);
             });
         }
+        res.status(200).send();
     });
 
     app.get('/getrepos', (req, res) => {
@@ -25,11 +30,15 @@ let rootRouter = (app) => {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
-                    'Authorization':  config.get('GithubAPI.authBasic'),
                     'User-Agent': 'test-joynet'
+                },
+                auth: {
+                    user: config.get('GithubAPI.user'),
+                    pass: config.get('GithubAPI.pass')
                 }
             }, (err, response, body) => {
-                res.status(200).send(JSON.parse(body));
+                res.status(200).send(JSON.stringify(body));
+                queue.finished();
             });
         });
     });
@@ -43,11 +52,15 @@ let rootRouter = (app) => {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/vnd.github.v3+json',
-                    'Authorization':  config.get('GithubAPI.authBasic'),
                     'User-Agent': 'test-joynet'
+                },
+                auth: {
+                    user: config.get('GithubAPI.user'),
+                    pass: config.get('GithubAPI.pass')
                 }
             }, (err, response, body) => {
-                res.status(200).send(JSON.parse(body));
+                res.status(200).send(JSON.stringify(body));
+                queue.finished();
             });
 
         });
